@@ -1,5 +1,6 @@
 ARG IMAGE
 ARG IMAGE_TAG
+ARG SPIDER_BRANCH
 FROM ${IMAGE:-alpine}:${IMAGE_TAG:-3}
 
 ENV SPIDER_INSTALL_DIR=${SPIDER_INSTALL_DIR:-/spider}
@@ -15,7 +16,7 @@ RUN export SPIDER_GIT_REPOSITORY=${SPIDER_GIT_REPOSITORY:-git://scm.dxcluster.or
     cpanm --no-wget Curses && \
     cpanm --no-wget Redis && \
     adduser -D -u $SPIDER_UID -h ${SPIDER_INSTALL_DIR} $SPIDER_USERNAME && \
-    git clone $SPIDER_GIT_REPOSITORY ${SPIDER_INSTALL_DIR} &&  \
+    git clone -b ${SPIDER_BRANCH:-master} $SPIDER_GIT_REPOSITORY ${SPIDER_INSTALL_DIR} &&  \
     (cd $SPIDER_INSTALL_DIR && git reset --hard $SPIDER_VERSION) && \
     mkdir -p ${SPIDER_INSTALL_DIR}/local ${SPIDER_INSTALL_DIR}/local_cmd && \
     find ${SPIDER_INSTALL_DIR}/. -type d -exec chmod 2775 {} \; && \
