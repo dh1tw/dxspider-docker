@@ -10,14 +10,17 @@ ARG SPIDER_INSTALL_DIR=/spider
 
 ENV SPIDER_USERNAME=${SPIDER_USERNAME:-sysop} SPIDER_UID=${SPIDER_UID:-1000}
 
-RUN export  && \
-    apk update && \
+RUN apk update && \
     apk add gcc git make \
     musl-dev ncurses-libs ncurses-dev \
     perl-db_file perl-dev perl-digest-sha1 perl-io-socket-ssl perl-net-telnet perl-timedate perl-yaml-libyaml \
     perl-test-simple perl-app-cpanminus && \
     cpanm --no-wget Curses && \
     cpanm --no-wget Redis && \
+    cpanm --no-wget Data::Structure::Util && \
+    cpanm --no-wget Mojo::IOLoop && \
+    cpanm --no-wget JSON && \
+    cpanm --no-wget Math::Round && \
     adduser -D -u $SPIDER_UID -h ${SPIDER_INSTALL_DIR} $SPIDER_USERNAME && \
     git clone -b ${SPIDER_BRANCH} ${SPIDER_GIT_REPOSITORY} ${SPIDER_INSTALL_DIR} && \
     (cd ${SPIDER_INSTALL_DIR} && git reset --hard ${SPIDER_VERSION}) && \
