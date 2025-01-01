@@ -29,7 +29,7 @@ RUN apk update && \
     find ${SPIDER_INSTALL_DIR}/. -type f -name '*.pl' -exec chmod 775 {} \; && \
     (cd ${SPIDER_INSTALL_DIR}/src && make) && \
     chown -R ${SPIDER_USERNAME}:${SPIDER_USERNAME} ${SPIDER_INSTALL_DIR}/. && \
-    apk del --purge gcc git make \
+    apk del --purge gcc make \
     musl-dev ncurses-dev perl-app-cpanminus perl-dev && \
     rm -rf /var/cache/apk/*
 
